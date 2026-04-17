@@ -1,0 +1,2 @@
+CompileFlags:
+    Add: [-xc, -Wall, -Wextra, -pedantic, -std=c23, -D_POSIX_C_SOURCE=200809L]
