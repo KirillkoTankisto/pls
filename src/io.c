@@ -36,12 +36,14 @@ const char* get_uname(uid_t uid)
     }
 
     getpwuid_r(uid, &pwd, buf, bufsize, &result);
+
     if (!result)
     {
+        free(buf);
         return unknown;
     }
 
-    char* name = strdup(result->pw_name);
+    char *name = strdup(result->pw_name);
 
     free(buf);
 
@@ -67,9 +69,12 @@ const char* get_gname(gid_t gid)
 
     getgrgid_r(gid, &grp, buf, bufsize, &result);
     if (!result)
+    {
+        free(buf);
         return unknown;
+    }
 
-    char* name = strdup(result->gr_name);
+    char *name = strdup(result->gr_name);
 
     free(buf);
 

@@ -3,10 +3,10 @@ INC = include
 BUILD = build
 
 SRC_FILES = args.c dirs.c display.c error.c filemeta.c genericmap.c io.c main.c
-INC_FILES = args.h dirs.h display.h error.h filemeta.h genericmap.h io.h test.h
+INC_FILES = args.h dirs.h display.h error.h filemeta.h genericmap.h io.h
 
 CC = clang
-CFLAGS = -O3 -pipe -flto=full -std=c23 -Wall -Wextra -Werror -pedantic -D_POSIX_C_SOURCE=200809L -mtune=generic
+CFLAGS = -O3 -pipe -std=c23 -Wall -Wextra -Werror -pedantic -D_POSIX_C_SOURCE=200809L -mtune=generic
 DBGFLAGS = -O0 -g -std=c23 -Wall -Wextra -Werror -pedantic -D_POSIX_C_SOURCE=200809L
 
 PREFIX ?= /usr/local/bin

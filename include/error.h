@@ -16,4 +16,4 @@ enum ERRORS
 
 void printerror(const char *function, size_t line, enum ERRORS error);
 
-#define PERR(err) printerror(__FUNCTION__, __LINE__, err)
+#define PERR(err) printerror(__func__, __LINE__, err)

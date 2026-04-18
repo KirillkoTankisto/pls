@@ -39,8 +39,10 @@ int perform_list(const char *path, enum COLORMODE colormode, enum PRINTMODE prin
     }
 
     else
+    {
         PERR(NONEXIST);
         return 1;
+    }
 
     return 0;
 }
