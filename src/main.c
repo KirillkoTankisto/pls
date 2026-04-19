@@ -32,7 +32,7 @@ int perform_list(const char *path, enum COLORMODE colormode, enum PRINTMODE prin
 
         else
         {
-            entry_object obj = get_entry(path, st.st_ino, umap, gmap, colormode);
+            entry_object obj = get_entry(path, AT_FDCWD, umap, gmap, colormode);
 
             print_entry(path, &obj, colormode);
         }

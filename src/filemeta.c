@@ -1,9 +1,11 @@
 #include "../include/dirs.h"
+#include "../include/error.h"
 #include "../include/io.h"
 
-#include <linux/limits.h>
+#include <limits.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <time.h>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -102,18 +104,42 @@ const char *get_link(int dir_fd, entry_object *e)
     return result;
 }
 
+static const size_t buf_size = 32;
+
+const char *format_date(time_t tvsec)
+{
+
+    char *buf = malloc(buf_size);
+    if (!buf)
+    {
+        PERR(MALLOC);
+        exit(1);
+    }
+
+    memset(buf, 0, buf_size);
+
+    struct tm *t = localtime(&tvsec);
+    strftime(buf, 32, "%b %d %X", t);
+
+    return buf;
+}
+
 void set_metadata(int dir_fd, entry_object *e, some_map *umap, some_map *gmap)
 {
     struct stat st;
 
-    if (fstatat(dir_fd, e->name, &st, AT_SYMLINK_NOFOLLOW)) return;
+    if (fstatat(dir_fd, e->name, &st, AT_SYMLINK_NOFOLLOW))
+    {
+        PERR(NONEXIST);
+        exit(1);
+    }
 
     set_mode(e->mode, &st);
 
     e->type = get_filetype(&st);
     e->uname = get_guid_cached(umap, st.st_uid);
     e->gname = get_guid_cached(gmap, st.st_gid);
-    e->ctime = format_date(&st.st_ctim);
+    e->ctime = format_date(st.st_ctime);
     e->softlink = get_link(dir_fd, e);
     e->hardlinks = st.st_nlink;
     e->size = st.st_size;

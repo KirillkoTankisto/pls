@@ -80,23 +80,3 @@ const char* get_gname(gid_t gid)
 
     return name;
 }
-
-static const size_t buf_size = 32;
-
-const char *format_date(struct timespec *tmspec)
-{
-
-    char *buf = malloc(buf_size);
-    if (!buf)
-    {
-        PERR(MALLOC);
-        exit(1);
-    }
-
-    memset(buf, 0, buf_size);
-
-    struct tm *t = localtime(&tmspec->tv_sec);
-    strftime(buf, 32, "%b %d %X", t);
-
-    return buf;
-}

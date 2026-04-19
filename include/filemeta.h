@@ -67,4 +67,6 @@ enum COLORS get_color(enum FILETYPE type);
 
 void set_mode(char txt[11], struct stat *st);
 
+const char *format_date(time_t tvsec);
+
 void set_metadata(int dir_fd, entry_object *e, some_map *umap, some_map *gmap);
