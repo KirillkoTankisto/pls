@@ -7,11 +7,10 @@ INC_FILES = args.h dirs.h display.h error.h filemeta.h genericmap.h io.h
 
 CC ?= cc
 TARGET ?=
+STRIP ?= strip
 
 CFLAGS = -O3 -pipe -std=c23 -Wall -Wextra -Werror -pedantic -D_POSIX_C_SOURCE=200809L $(TARGET)
 DBGFLAGS = -O0 -g -std=c23 -Wall -Wextra -Werror -pedantic -D_POSIX_C_SOURCE=200809L
-
-LDFLAGS = -Wl,--strip-all
 
 PREFIX ?= /usr/local/bin
 
@@ -22,7 +21,8 @@ compile: $(BUILD)/pls
 debug: $(BUILD)/pls_debug
 
 $(BUILD)/pls: $(addprefix $(SRC)/,$(SRC_FILES)) $(addprefix $(INC)/,$(INC_FILES)) $(BUILD)
-	$(CC) -o $@ $(addprefix $(SRC)/,$(SRC_FILES)) $(CFLAGS) $(LDFLAGS)
+	$(CC) -o $@.unstripped $(addprefix $(SRC)/,$(SRC_FILES)) $(CFLAGS)
+	$(STRIP) $@.unstripped -o $@
 
 $(BUILD)/pls_debug: $(addprefix $(SRC)/,$(SRC_FILES)) $(addprefix $(INC)/,$(INC_FILES)) $(BUILD)
 	$(CC) -o $@ $(addprefix $(SRC)/,$(SRC_FILES)) $(DBGFLAGS)
